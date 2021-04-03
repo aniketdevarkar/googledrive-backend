@@ -26,7 +26,7 @@ app.get("/", authenticate, async (req, res) => {
     const clientInfo = await mongoClient.connect(dbUrl);
     const db = clientInfo.db("google_drive");
     const data = await db.collection("drive_users").find().toArray();
-    console.log(data);
+    
     res.json(data);
     clientInfo.close();
   } catch (error) {
@@ -48,8 +48,7 @@ app.post("/register", async (req, res) => {
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    console.log(salt);
-    console.log(hashedPassword);
+   
     await db.collection("drive_users").insertOne({
       email: req.body.email,
       firstName: req.body.firstName,
